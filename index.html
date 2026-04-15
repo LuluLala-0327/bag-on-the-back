@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지 전체 색상표 익스플로러</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f9f9f9;}
+        #header { text-align: center; margin-bottom: 20px; }
+        h2 { margin-bottom: 5px; color: #333; }
+        #color-count { font-size: 0.9em; color: #666; }
+        #controls { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .control-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        label { margin-right: 5px; cursor: pointer; }
+        #color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(35px, 1fr)); gap: 8px; overflow-y: auto; max-height: 600px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .color-chip { width: 35px; height: 35px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.1s, box-shadow 0.1s; }
+        .color-chip:hover { transform: scale(1.15); box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10; border-color: rgba(0,0,0,0.3); }
+        #info-panel { text-align: center; margin-top: 20px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        #info-panel h3 { margin-top: 0; margin-bottom: 10px; color: #333; }
+        #info-panel p { margin: 5px 0; font-size: 1.1em; }
+        .color-preview { display: inline-block; width: 20px; height: 20px; vertical-align: middle; margin-right: 10px; border: 1px solid #ccc; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<div id="header">
+    <h2>🎨 추출된 색상표 익스플로러</h2>
+    <p id="color-count">현재 표시된 색상 수: <span id="count-value"></span></p>
+</div>
+
+<div id="controls">
+    <div class="control-group">
+        <label for="sort-select"><strong>정렬 기준:</strong></label>
+        <select id="sort-select">
+            <option value="family">색상군별</option>
+            <option value="value">밝기순</option>
+            <option value="saturation">채도순</option>
+            <option value="hue">색상순</option>
+        </select>
+    </div>
+    <div class="control-group" id="filter-group">
+        <strong>필터 (색상군):</strong>
+        <label><input type="checkbox" class="family-filter" value="Reds" checked> 빨강/분홍</label>
+        <label><input type="checkbox" class="family-filter" value="Yellows" checked> 노랑/주황</label>
+        <label><input type="checkbox" class="family-filter" value="Greens" checked> 초록</label>
+        <label><input type="checkbox" class="family-filter" value="Blues" checked> 파랑</label>
+        <label><input type="checkbox" class="family-filter" value="Purples" checked> 보라</label>
+        <label><input type="checkbox" class="family-filter" value="Browns" checked> 갈색/피부톤</label>
+        <label><input type="checkbox" class="family-filter" value="Grays" checked> 무채색/기타</label>
+    </div>
+</div>
+
+<div id="color-grid"></div>
+
+<div id="info-panel">
+    <h3>선택된 색상 상세 정보</h3>
+    <p><span class="color-preview" id="preview-box"></span> <strong>HEX:</strong> <span id="hex-value">마우스를 올려보세요</span></p>
+</div>
+
+<script>
+    // 이미지에서 추출한 대규모 색상 데이터 세트
+    const colorData = [
+        // Reds / Pinks
+        { hex: '#E5989B', family: 'Reds', hsl: [358, 56, 75] }, { hex: '#FFB4A2', family: 'Reds', hsl: [12, 100, 82] },
+        { hex: '#FFC8DD', family: 'Reds', hsl: [337, 100, 89] }, { hex: '#FFAFCC', family: 'Reds', hsl: [338, 100, 84] },
+        { hex: '#E07A5F', family: 'Reds', hsl: [13, 68, 63] }, { hex: '#E76F51', family: 'Reds', hsl: [12, 76, 61] },
+        { hex: '#D62828', family: 'Reds', hsl: [0, 68, 50] }, { hex: '#CD5C5C', family: 'Reds', hsl: [0, 53, 58] },
+        { hex: '#F08080', family: 'Reds', hsl: [0, 79, 72] }, { hex: '#E8A598', family: 'Reds', hsl: [10, 60, 75] },
+
+        // Yellows / Oranges
+        { hex: '#F4A261', family: 'Yellows', hsl: [27, 87, 67] }, { hex: '#E9C46A', family: 'Yellows', hsl: [43, 74, 66] },
+        { hex: '#F4A460', family: 'Yellows', hsl: [28, 87, 67] }, { hex: '#FFD166', family: 'Yellows', hsl: [42, 100, 70] },
+        { hex: '#EFD07C', family: 'Yellows', hsl: [44, 76, 71] }, { hex: '#F9C784', family: 'Yellows', hsl: [34, 91, 75] },
+        { hex: '#F7A072', family: 'Yellows', hsl: [21, 90, 71] }, { hex: '#EDC4B3', family: 'Yellows', hsl: [18, 58, 82] },
+
+        // Greens
+        { hex: '#2A9D8F', family: 'Greens', hsl: [173, 58, 39] }, { hex: '#A3B18A', family: 'Greens', hsl: [82, 24, 62] },
+        { hex: '#588157', family: 'Greens', hsl: [118, 19, 42] }, { hex: '#3A5A40', family: 'Greens', hsl: [131, 20, 30] },
+        { hex: '#84A59D', family: 'Greens', hsl: [165, 17, 59] }, { hex: '#90BE6D', family: 'Greens', hsl: [94, 38, 59] },
+        { hex: '#43AA8B', family: 'Greens', hsl: [162, 43, 46] }, { hex: '#709775', family: 'Greens', hsl: [128, 15, 52] },
+
+        // Blues
+        { hex: '#457B9D', family: 'Blues', hsl: [203, 39, 44] }, { hex: '#1D3557', family: 'Blues', hsl: [215, 50, 23] },
+        { hex: '#A8DADC', family: 'Blues', hsl: [181, 43, 76] }, { hex: '#118AB2', family: 'Blues', hsl: [195, 83, 38] },
+        { hex: '#8ECAE6', family: 'Blues', hsl: [199, 62, 73] }, { hex: '#219EBC', family: 'Blues', hsl: [192, 70, 43] },
+        { hex: '#023047', family: 'Blues', hsl: [200, 94, 14] }, { hex: '#7B9EAF', family: 'Blues', hsl: [199, 23, 58] },
+
+        // Purples
+        { hex: '#9D8189', family: 'Purples', hsl: [343, 14, 56] }, { hex: '#5E548E', family: 'Purples', hsl: [250, 26, 44] },
+        { hex: '#231942', family: 'Purples', hsl: [255, 45, 18] }, { hex: '#BE95C4', family: 'Purples', hsl: [293, 27, 68] },
+        { hex: '#9F86C0', family: 'Purples', hsl: [266, 32, 64] }, { hex: '#CDB4DB', family: 'Purples', hsl: [279, 34, 78] },
+
+        // Browns / Skin Tones
+        { hex: '#A47148', family: 'Browns', hsl: [27, 39, 46] }, { hex: '#6B4931', family: 'Browns', hsl: [25, 37, 31] },
+        { hex: '#8C6239', family: 'Browns', hsl: [30, 42, 39] }, { hex: '#B08968', family: 'Browns', hsl: [28, 32, 55] },
+        { hex: '#DDB892', family: 'Browns', hsl: [30, 54, 72] }, { hex: '#E6CCB2', family: 'Browns', hsl: [30, 48, 80] },
+        { hex: '#CBA187', family: 'Browns', hsl: [23, 38, 66] }, { hex: '#926C55', family: 'Browns', hsl: [23, 26, 45] },
+
+        // Grays / Neutrals
+        { hex: '#F8EDEB', family: 'Grays', hsl: [9, 43, 95] }, { hex: '#FAE1DD', family: 'Grays', hsl: [8, 55, 92] },
+        { hex: '#E8E8E4', family: 'Grays', hsl: [60, 9, 90] }, { hex: '#D8E2DC', family: 'Grays', hsl: [144, 14, 87] },
+        { hex: '#ECE4DB', family: 'Grays', hsl: [32, 28, 89] }, { hex: '#FFE5D9', family: 'Grays', hsl: [19, 100, 93] },
+        { hex: '#4A4E69', family: 'Grays', hsl: [232, 17, 35] }, { hex: '#22223B', family: 'Grays', hsl: [240, 27, 18] }
+    ];
+
+    const gridContainer = document.getElementById('color-grid');
+    const sortSelect = document.getElementById('sort-select');
+    const filterGroup = document.getElementById('filter-group');
+    const hexValueSpan = document.getElementById('hex-value');
+    const countValueSpan = document.getElementById('count-value');
+    const previewBox = document.getElementById('preview-box');
+
+    let currentSort = 'family';
+    let currentFilters = new Set(['Reds', 'Yellows', 'Greens', 'Blues', 'Purples', 'Browns', 'Grays']);
+
+    function renderColors() {
+        gridContainer.innerHTML = '';
+        let filteredCount = 0;
+
+        let displayData = colorData.filter(color => currentFilters.has(color.family));
+        
+        displayData.sort((a, b) => {
+            if (currentSort === 'family') {
+                const familyOrder = ['Reds', 'Yellows', 'Greens', 'Blues', 'Purples', 'Browns', 'Grays'];
+                return familyOrder.indexOf(a.family) - familyOrder.indexOf(b.family) || b.hsl[2] - a.hsl[2];
+            } else if (currentSort === 'value') {
+                return b.hsl[2] - a.hsl[2];
+            } else if (currentSort === 'saturation') {
+                return b.hsl[1] - a.hsl[1];
+            } else if (currentSort === 'hue') {
+                return a.hsl[0] - b.hsl[0];
+            }
+            return 0;
+        });
+
+        displayData.forEach(color => {
+            const chip = document.createElement('div');
+            chip.className = 'color-chip';
+            chip.style.backgroundColor = color.hex;
+            chip.title = `${color.hex} - ${color.family}`;
+            chip.addEventListener('mouseover', () => updateInfoPanel(color));
+            gridContainer.appendChild(chip);
+            filteredCount++;
+        });
+        
+        countValueSpan.textContent = `${filteredCount} / ${colorData.length}`;
+    }
+
+    function updateInfoPanel(color) {
+        hexValueSpan.textContent = color.hex;
+        previewBox.style.backgroundColor = color.hex;
+    }
+
+    sortSelect.addEventListener('change', () => {
+        currentSort = sortSelect.value;
+        renderColors();
+    });
+
+    filterGroup.addEventListener('change', (event) => {
+        if (event.target.classList.contains('family-filter')) {
+            if (event.target.checked) {
+                currentFilters.add(event.target.value);
+            } else {
+                currentFilters.delete(event.target.value);
+            }
+            renderColors();
+        }
+    });
+
+    renderColors();
+</script>
+
+</body>
+</html>
