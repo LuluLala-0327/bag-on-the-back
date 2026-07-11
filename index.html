@@ -87,10 +87,12 @@
   .group-note{color:var(--mut);font-size:13px}
 
   .items{list-style:none}
-  .item{display:flex;gap:20px;padding:16px 4px;border-bottom:1px solid var(--line)}
-  .item .name{flex:0 0 210px;font-weight:800;font-size:15px}
-  .item .desc{flex:1;color:#333;font-size:14.5px}
-  @media(max-width:640px){.item{flex-direction:column;gap:4px}.item .name{flex:none}}
+  .item{display:block;padding:22px 4px;border-bottom:1px solid var(--line)}
+  .item .name{font-weight:800;font-size:15.5px}
+  .item .desc{color:#333;font-size:14.5px;margin-top:5px}
+  .ivrow{margin-top:14px}
+  .ivlb{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--mut);margin-bottom:9px}
+  .ivgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 
   /* ---- reference viewers ---- */
   .refs{margin:14px 0 22px;padding:18px;background:var(--soft);border:1px solid var(--line)}
@@ -231,31 +233,39 @@
     cardsEl.appendChild(a);
   });
 
-  /* ---- reference viewer html (카테고리 설명 아래에 삽입) ---- */
+  /* ---- 단일 뷰어 카드 ---- */
+  function vcardHtml(r,moreCls){
+    moreCls = moreCls||'';
+    var id = r.id || ytId(r.url);
+    if(id){
+      return '<div class="vcard'+moreCls+'" data-yt="'+id+'" data-t="'+esc(r.label)+'" data-u="'+esc(r.url)+'">'+
+               '<div class="vthumb"><img loading="lazy" src="https://i.ytimg.com/vi/'+id+'/mqdefault.jpg" '+
+                 'alt="'+esc(r.label)+'" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg\'">'+
+                 '<div class="vplay"><span>&#9654;</span></div></div>'+
+               '<div class="vcap">'+esc(r.label)+'</div>'+
+             '</div>';
+    }
+    return '<a class="vcard'+moreCls+'" href="'+esc(r.url)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#000">'+
+             '<div class="vext">'+esc(r.label)+'</div>'+
+             '<div class="vcap">공식 페이지 · 새 탭에서 열기</div>'+
+           '</a>';
+  }
+
+  /* ---- 항목(카메라)별 뷰어 : 설명 바로 아래 ---- */
+  function itemViewer(it){
+    if(!it.refs || !it.refs.length) return '';
+    var out = '<div class="ivrow"><span class="ivlb">▶ 뷰어</span><div class="ivgrid">';
+    it.refs.forEach(function(r){ out += vcardHtml(r); });
+    out += '</div></div>';
+    return out;
+  }
+
+  /* ---- 그룹 폴백 뷰어 (섹션 21·24처럼 항목에 매칭이 없는 경우) ---- */
   function refsHtml(g){
     if(!g.refs || !g.refs.length) return '';
-    var LIMIT = 8, extra = g.refs.length - LIMIT, out = '';
-    out += '<div class="refs"><div class="lb">레퍼런스 뷰어 · 썸네일을 누르면 그 자리에서 바로 재생 '+
-           '<b>'+g.refs.length+'개</b></div><div class="vwrap"><div class="vgrid">';
-    g.refs.forEach(function(r,i){
-      var id = r.id || ytId(r.url);
-      var moreCls = i>=LIMIT ? ' more' : '';
-      if(id){
-        out += '<div class="vcard'+moreCls+'" data-yt="'+id+'" data-t="'+esc(r.label)+'" data-u="'+esc(r.url)+'">'+
-                 '<div class="vthumb"><img loading="lazy" src="https://i.ytimg.com/vi/'+id+'/mqdefault.jpg" '+
-                   'alt="'+esc(r.label)+'" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg\'">'+
-                   '<div class="vplay"><span>&#9654;</span></div></div>'+
-                 '<div class="vcap">'+esc(r.label)+'</div>'+
-               '</div>';
-      } else {
-        out += '<a class="vcard'+moreCls+'" href="'+esc(r.url)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#000">'+
-                 '<div class="vext">'+esc(r.label)+'</div>'+
-                 '<div class="vcap">공식 페이지 · 새 탭에서 열기</div>'+
-               '</a>';
-      }
-    });
-    out += '</div>';
-    if(extra>0) out += '<div class="vmore"><button type="button" class="moreBtn">+ '+extra+'개 더 보기</button></div>';
+    var out = '<div class="refs"><div class="lb">레퍼런스 뷰어 · 썸네일을 누르면 그 자리에서 바로 재생</div>'+
+              '<div class="vgrid">';
+    g.refs.forEach(function(r){ out += vcardHtml(r); });
     out += '</div></div>';
     return out;
   }
@@ -275,16 +285,18 @@
       html += '<div class="group-head"><span class="group-sub">'+esc(g.sub)+'</span>'+
               (g.note?'<span class="group-note">'+esc(g.note)+'</span>':'')+'</div>';
 
-      // 카테고리 설명 바로 밑에 뷰어
-      html += refsHtml(g);
-
       html += '<ul class="items">';
       g.items.forEach(function(it){
         html += '<li class="item" data-name="'+esc(it.name)+'" data-desc="'+esc(it.desc||'')+'">'+
                 '<div class="name">'+esc(it.name)+'</div>'+
-                '<div class="desc">'+esc(it.desc||'')+'</div></li>';
+                (it.desc?'<div class="desc">'+esc(it.desc)+'</div>':'')+
+                itemViewer(it)+   // 항목 설명 바로 아래에 매칭 뷰어
+                '</li>';
       });
       html += '</ul>';
+
+      // 항목 매칭이 없는 그룹(예: 21·24)은 그룹 단위 뷰어로 폴백
+      html += refsHtml(g);
       html += '</div>';
     });
 
