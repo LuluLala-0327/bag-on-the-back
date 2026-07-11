@@ -93,7 +93,7 @@
   @media(max-width:640px){.item{flex-direction:column;gap:4px}.item .name{flex:none}}
 
   /* ---- reference viewers ---- */
-  .refs{margin:20px 0 4px;padding:18px;background:var(--soft);border:1px solid var(--line)}
+  .refs{margin:14px 0 22px;padding:18px;background:var(--soft);border:1px solid var(--line)}
   .refs .lb{font-size:11px;letter-spacing:.14em;font-weight:800;color:var(--mut);
     text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
   .refs .lb b{color:#000}
@@ -231,6 +231,35 @@
     cardsEl.appendChild(a);
   });
 
+  /* ---- reference viewer html (카테고리 설명 아래에 삽입) ---- */
+  function refsHtml(g){
+    if(!g.refs || !g.refs.length) return '';
+    var LIMIT = 8, extra = g.refs.length - LIMIT, out = '';
+    out += '<div class="refs"><div class="lb">레퍼런스 뷰어 · 썸네일을 누르면 그 자리에서 바로 재생 '+
+           '<b>'+g.refs.length+'개</b></div><div class="vwrap"><div class="vgrid">';
+    g.refs.forEach(function(r,i){
+      var id = r.id || ytId(r.url);
+      var moreCls = i>=LIMIT ? ' more' : '';
+      if(id){
+        out += '<div class="vcard'+moreCls+'" data-yt="'+id+'" data-t="'+esc(r.label)+'" data-u="'+esc(r.url)+'">'+
+                 '<div class="vthumb"><img loading="lazy" src="https://i.ytimg.com/vi/'+id+'/mqdefault.jpg" '+
+                   'alt="'+esc(r.label)+'" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg\'">'+
+                   '<div class="vplay"><span>&#9654;</span></div></div>'+
+                 '<div class="vcap">'+esc(r.label)+'</div>'+
+               '</div>';
+      } else {
+        out += '<a class="vcard'+moreCls+'" href="'+esc(r.url)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#000">'+
+                 '<div class="vext">'+esc(r.label)+'</div>'+
+                 '<div class="vcap">공식 페이지 · 새 탭에서 열기</div>'+
+               '</a>';
+      }
+    });
+    out += '</div>';
+    if(extra>0) out += '<div class="vmore"><button type="button" class="moreBtn">+ '+extra+'개 더 보기</button></div>';
+    out += '</div></div>';
+    return out;
+  }
+
   /* ---- render sections ---- */
   var content = document.getElementById('content');
   D.sections.forEach(function(s){
@@ -245,6 +274,10 @@
       html += '<div class="group">';
       html += '<div class="group-head"><span class="group-sub">'+esc(g.sub)+'</span>'+
               (g.note?'<span class="group-note">'+esc(g.note)+'</span>':'')+'</div>';
+
+      // 카테고리 설명 바로 밑에 뷰어
+      html += refsHtml(g);
+
       html += '<ul class="items">';
       g.items.forEach(function(it){
         html += '<li class="item" data-name="'+esc(it.name)+'" data-desc="'+esc(it.desc||'')+'">'+
@@ -252,32 +285,6 @@
                 '<div class="desc">'+esc(it.desc||'')+'</div></li>';
       });
       html += '</ul>';
-
-      if(g.refs && g.refs.length){
-        var LIMIT = 8, extra = g.refs.length - LIMIT;
-        html += '<div class="refs"><div class="lb">레퍼런스 뷰어 · 썸네일을 누르면 그 자리에서 바로 재생 '+
-                '<b>'+g.refs.length+'개</b></div><div class="vwrap"><div class="vgrid">';
-        g.refs.forEach(function(r,i){
-          var id = r.id || ytId(r.url);
-          var moreCls = i>=LIMIT ? ' more' : '';
-          if(id){
-            html += '<div class="vcard'+moreCls+'" data-yt="'+id+'" data-t="'+esc(r.label)+'" data-u="'+esc(r.url)+'">'+
-                      '<div class="vthumb"><img loading="lazy" src="https://i.ytimg.com/vi/'+id+'/mqdefault.jpg" '+
-                        'alt="'+esc(r.label)+'" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg\'">'+
-                        '<div class="vplay"><span>&#9654;</span></div></div>'+
-                      '<div class="vcap">'+esc(r.label)+'</div>'+
-                    '</div>';
-          } else {
-            html += '<a class="vcard'+moreCls+'" href="'+esc(r.url)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#000">'+
-                      '<div class="vext">'+esc(r.label)+'</div>'+
-                      '<div class="vcap">공식 페이지 · 새 탭에서 열기</div>'+
-                    '</a>';
-          }
-        });
-        html += '</div>';
-        if(extra>0) html += '<div class="vmore"><button type="button" class="moreBtn">+ '+extra+'개 더 보기</button></div>';
-        html += '</div></div>';
-      }
       html += '</div>';
     });
 
