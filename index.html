@@ -132,6 +132,11 @@
   .content{padding:20px 0 60px}
   .sec{padding:60px 0 10px;border-top:1px solid var(--line);scroll-margin-top:80px}
   .sec:first-child{border-top:none}
+  /* 포커스 모드: 선택 섹션만 바로 표시(스크롤 이동 없음) */
+  body.focus .hero,body.focus .overview{display:none}
+  body.focus .sec{display:none}
+  body.focus .sec.active{display:block;border-top:none;padding-top:34px}
+  .brand{cursor:pointer}
   .sec-head{display:flex;gap:22px;align-items:baseline;flex-wrap:wrap;margin-bottom:8px}
   .sec-no{font-size:13px;font-weight:800;letter-spacing:.12em;
     border:1px solid #000;padding:4px 10px;color:#000}
@@ -421,7 +426,31 @@
   var total=items.length;
   function setCount(n){count.textContent=n+' / '+total+' 연출';}
   setCount(total);
+
+  /* ---- 섹션 포커스 이동 (스크롤 없이 해당 섹션만 표시) ---- */
+  function clearFilter(){
+    search.value='';
+    items.forEach(function(it){it.style.display='';});
+    groups.forEach(function(g){g.style.display='';});
+    secs.forEach(function(s){s.style.display='';});
+    setCount(total);
+  }
+  function goSection(n){
+    clearFilter();
+    document.body.classList.add('focus');
+    secs.forEach(function(s){ s.classList.toggle('active', s.id==='s'+n); });
+    window.scrollTo(0,0);
+  }
+  function showAll(){
+    document.body.classList.remove('focus');
+    secs.forEach(function(s){ s.classList.remove('active'); });
+    window.scrollTo(0,0);
+  }
+  window.__goSection=goSection; window.__showAll=showAll;
+
   search.addEventListener('input',function(){
+    if(document.body.classList.contains('focus')){ document.body.classList.remove('focus');
+      secs.forEach(function(s){s.classList.remove('active');}); }
     var q=search.value.trim().toLowerCase(), shown=0;
     items.forEach(function(it){
       var hit = !q || (it.dataset.name+' '+it.dataset.desc).toLowerCase().indexOf(q)>=0;
@@ -456,7 +485,6 @@
   hambBtn.addEventListener('click',openDrawer);
   document.getElementById('drawerClose').addEventListener('click',closeDrawer);
   drawerOv.addEventListener('click',closeDrawer);
-  drawerList.addEventListener('click',function(e){ if(e.target.closest('a')) closeDrawer(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeDrawer(); });
 
   /* ---- 맨 위로 (즉시) ---- */
@@ -483,15 +511,26 @@
     e.stopPropagation();
     if(qnPanel.classList.contains('open')) closeQN(); else openQN();
   });
-  qnPanel.addEventListener('click',function(e){
-    var a=e.target.closest('a'); if(!a) return;
-    if(a.getAttribute('data-top')){ e.preventDefault(); window.scrollTo(0,0); }
-    closeQN();
-  });
   document.addEventListener('click',function(e){
     if(qnPanel.classList.contains('open') && !e.target.closest('.fab')) closeQN();
   });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeQN(); });
+
+  /* ---- 통합 내비게이션: 앵커 클릭 시 스크롤 없이 즉시 해당 섹션 표시 ---- */
+  document.addEventListener('click',function(e){
+    var a=e.target.closest && e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var href=a.getAttribute('href');
+    if(a.getAttribute('data-top')||href==='#top'){
+      e.preventDefault(); showAll(); closeDrawer(); closeQN(); return;
+    }
+    if(href==='#overview'){
+      e.preventDefault(); showAll(); closeDrawer(); closeQN(); return;
+    }
+    var m=href.match(/^#s(\d+)$/);
+    if(m){ e.preventDefault(); goSection(+m[1]); closeDrawer(); closeQN(); }
+  });
+  document.querySelector('.brand').addEventListener('click',function(){ showAll(); });
 })();
 </script>
 </body>
