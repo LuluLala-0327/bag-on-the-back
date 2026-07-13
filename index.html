@@ -10,7 +10,7 @@
     --soft:#f4f4f4; --chip:#f0f0f0; --accent:#000;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:auto}
   body{
     font-family:"Helvetica Neue",Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
     color:var(--ink);background:var(--bg);line-height:1.55;
@@ -59,14 +59,38 @@
   .drawer-list a .dn{font-size:11px;font-weight:800;color:var(--mut);min-width:22px}
   .drawer-list a:hover .dn{color:#bbb}
 
-  /* ---- 맨 위로 ---- */
-  .totop{position:fixed;right:26px;bottom:26px;width:48px;height:48px;border-radius:50%;
-    border:1px solid #000;background:#000;color:#fff;font-size:20px;cursor:pointer;z-index:50;
-    display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;
-    transform:translateY(10px);transition:opacity .2s,transform .2s,background .15s}
+  /* ---- 우측 하단 퀵네비 스택 ---- */
+  .fab{position:fixed;right:26px;bottom:26px;z-index:50;display:flex;flex-direction:column;
+    align-items:flex-end;gap:12px}
+  .totop{width:48px;height:48px;border-radius:50%;border:1px solid #000;background:#000;color:#fff;
+    font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,transform .2s,background .15s}
   .totop.show{opacity:1;visibility:visible;transform:translateY(0)}
   .totop:hover{background:#fff;color:#000}
-  @media(max-width:520px){.totop{right:16px;bottom:16px;width:44px;height:44px}}
+
+  .qn-btn{width:56px;height:56px;border-radius:50%;border:none;background:#000;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    box-shadow:0 6px 20px rgba(0,0,0,.28);transition:background .15s}
+  .qn-btn span{display:block;width:20px;height:2px;background:#fff;transition:transform .22s,opacity .22s}
+  .qn-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .qn-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .qn-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  .qn-panel{position:absolute;right:0;bottom:calc(100% + 12px);width:280px;max-width:80vw;
+    max-height:64vh;overflow-y:auto;background:#fff;border:1px solid #000;
+    box-shadow:0 12px 34px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(10px);
+    transition:opacity .2s,transform .2s}
+  .qn-panel.open{opacity:1;visibility:visible;transform:translateY(0)}
+  .qn-head{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);
+    padding:14px 16px 8px}
+  .qn-item{display:flex;align-items:center;gap:11px;padding:11px 16px;font-size:13.5px;font-weight:600;
+    border-top:1px solid var(--line);transition:background .12s}
+  .qn-item:hover{background:#000;color:#fff}
+  .qn-n{font-size:11px;font-weight:800;color:var(--mut);min-width:20px;text-align:center}
+  .qn-item:hover .qn-n{color:#bbb}
+  .qn-list{display:flex;flex-direction:column}
+  @media(max-width:520px){.fab{right:16px;bottom:16px}.qn-btn{width:52px;height:52px}
+    .totop{width:44px;height:44px}}
 
   /* ---- hero ---- */
   .hero{padding:54px 0 30px}
@@ -208,8 +232,19 @@
   <nav class="drawer-list" id="drawerList"></nav>
 </aside>
 
-<!-- 맨 위로 -->
-<button class="totop" id="toTop" aria-label="맨 위로 이동">↑</button>
+<!-- 우측 하단 퀵네비 -->
+<div class="fab">
+  <div class="qn-panel" id="qnPanel" aria-hidden="true">
+    <div class="qn-head">바로가기</div>
+    <a class="qn-item" href="#top" data-top="1"><span class="qn-n">↑</span><span>맨 위로</span></a>
+    <a class="qn-item" href="#overview"><span class="qn-n">▤</span><span>전체 섹션</span></a>
+    <div class="qn-list" id="qnList"></div>
+  </div>
+  <button class="totop" id="toTop" aria-label="맨 위로 이동">↑</button>
+  <button class="qn-btn" id="qnBtn" aria-label="바로가기 열기" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</div>
 
 <header class="hero">
   <div class="wrap">
@@ -424,12 +459,39 @@
   drawerList.addEventListener('click',function(e){ if(e.target.closest('a')) closeDrawer(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeDrawer(); });
 
-  /* ---- 맨 위로 ---- */
+  /* ---- 맨 위로 (즉시) ---- */
   var toTop=document.getElementById('toTop');
   window.addEventListener('scroll',function(){
     if(window.pageYOffset>400) toTop.classList.add('show'); else toTop.classList.remove('show');
   },{passive:true});
-  toTop.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+  toTop.addEventListener('click',function(){ window.scrollTo(0,0); });
+
+  /* ---- 우측 하단 퀵네비 ---- */
+  var qnBtn=document.getElementById('qnBtn'), qnPanel=document.getElementById('qnPanel'),
+      qnList=document.getElementById('qnList');
+  D.sections.forEach(function(s){
+    var a=document.createElement('a');
+    a.className='qn-item'; a.href='#s'+s.n;
+    a.innerHTML='<span class="qn-n">'+pad(s.n)+'</span><span>'+esc(s.title)+'</span>';
+    qnList.appendChild(a);
+  });
+  function openQN(){qnPanel.classList.add('open');qnPanel.setAttribute('aria-hidden','false');
+    qnBtn.setAttribute('aria-expanded','true');}
+  function closeQN(){qnPanel.classList.remove('open');qnPanel.setAttribute('aria-hidden','true');
+    qnBtn.setAttribute('aria-expanded','false');}
+  qnBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(qnPanel.classList.contains('open')) closeQN(); else openQN();
+  });
+  qnPanel.addEventListener('click',function(e){
+    var a=e.target.closest('a'); if(!a) return;
+    if(a.getAttribute('data-top')){ e.preventDefault(); window.scrollTo(0,0); }
+    closeQN();
+  });
+  document.addEventListener('click',function(e){
+    if(qnPanel.classList.contains('open') && !e.target.closest('.fab')) closeQN();
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeQN(); });
 })();
 </script>
 </body>
