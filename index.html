@@ -3,606 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>프롤로그 — 프롤로그 연출 레퍼런스 정리</title>
+<title>레퍼런스 허브 — HOME</title>
 <style>
-  :root{
-    --bg:#ffffff; --ink:#000000; --mut:#666666; --line:#e2e2e2;
-    --soft:#f4f4f4; --chip:#f0f0f0; --accent:#000;
-  }
+  :root{--bg:#fff;--ink:#000;--mut:#666;--line:#e2e2e2;--soft:#f4f4f4}
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:auto}
-  body{
-    font-family:"Helvetica Neue",Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-    color:var(--ink);background:var(--bg);line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-  }
+  body{font-family:"Helvetica Neue",Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1160px;margin:0 auto;padding:0 28px}
-
-  /* ---- top black bar ---- */
   .topbar{background:#000;height:34px}
-
-  /* ---- nav ---- */
-  .nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);
-    backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-  .nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
+  .nav{border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;height:60px}
   .brand{font-weight:800;letter-spacing:.14em;font-size:15px}
-  .nav ul{list-style:none;display:flex;gap:34px;margin-left:auto}
-  .nav ul a{font-size:12px;letter-spacing:.16em;font-weight:700;color:#111;
-    text-transform:uppercase;transition:opacity .15s}
-  .nav ul a:hover{opacity:.45}
+  .nav .en{margin-left:auto;font-size:11px;letter-spacing:.2em;color:var(--mut);font-weight:700}
 
-  /* ---- 햄버거 ---- */
-  .hamb{width:40px;height:40px;border:1px solid var(--line);background:#fff;cursor:pointer;
-    display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;padding:0;
-    transition:background .15s}
-  .hamb:hover{background:#000}
-  .hamb span{display:block;width:18px;height:2px;background:#000;transition:background .15s}
-  .hamb:hover span{background:#fff}
+  .hero{padding:76px 0 40px}
+  .hero .en{font-size:12px;font-weight:800;letter-spacing:.28em;color:var(--mut);text-transform:uppercase}
+  .hero h1{font-size:clamp(46px,11vw,150px);line-height:.9;font-weight:800;letter-spacing:-.03em;margin-top:16px}
+  .hero .lead{max-width:640px;color:#333;font-size:16px;margin-top:22px}
+  .strip{display:flex;height:14px;margin-top:34px;border:1px solid var(--line)}
+  .strip span{flex:1}
 
-  /* ---- 드로어 ---- */
-  .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:60;opacity:0;
-    visibility:hidden;transition:opacity .22s}
-  .drawer-overlay.open{opacity:1;visibility:visible}
-  .drawer{position:fixed;top:0;left:0;bottom:0;width:310px;max-width:84vw;background:#fff;z-index:70;
-    transform:translateX(-100%);transition:transform .26s cubic-bezier(.4,0,.2,1);
-    display:flex;flex-direction:column;border-right:1px solid #000;box-shadow:2px 0 26px rgba(0,0,0,.18)}
-  .drawer.open{transform:translateX(0)}
-  .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:20px 22px;
-    border-bottom:2px solid #000;flex:0 0 auto}
-  .drawer-head span{font-weight:800;letter-spacing:.14em;font-size:13px;text-transform:uppercase}
-  .drawer-head button{border:none;background:none;font-size:20px;cursor:pointer;line-height:1;color:#000}
-  .drawer-list{overflow-y:auto;flex:1 1 auto;padding:6px 0}
-  .drawer-list a{display:flex;align-items:baseline;gap:12px;padding:13px 22px;font-size:14px;
-    font-weight:600;border-bottom:1px solid var(--line);transition:background .12s,padding-left .12s}
-  .drawer-list a:hover{background:#000;color:#fff;padding-left:28px}
-  .drawer-list a .dn{font-size:11px;font-weight:800;color:var(--mut);min-width:22px}
-  .drawer-list a:hover .dn{color:#bbb}
+  .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid #000;margin:12px 0 80px}
+  .catcard{border:1px solid #000;margin:-1px 0 0 -1px;padding:34px 30px 30px;min-height:280px;display:flex;flex-direction:column;justify-content:space-between;background:#fff;transition:background .18s,color .18s;cursor:pointer}
+  .catcard:hover{background:#000;color:#fff}
+  .catcard .n{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--mut)}
+  .catcard:hover .n{color:#bbb}
+  .catcard h2{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.01em;margin-top:14px}
+  .catcard p{font-size:13.5px;color:#444;margin-top:12px;line-height:1.6}
+  .catcard:hover p{color:#ccc}
+  .catcard .go{margin-top:24px;font-size:12px;font-weight:800;letter-spacing:.08em;display:flex;align-items:center;gap:8px}
+  .catcard.soon{cursor:default}
+  .catcard.soon:hover{background:#fff;color:inherit}
+  .catcard.soon:hover p{color:#444}
+  .catcard.soon:hover .n{color:var(--mut)}
+  .badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.1em;border:1px solid currentColor;padding:3px 8px;margin-top:14px;align-self:flex-start}
 
-  /* ---- 우측 하단 퀵네비 스택 ---- */
-  .fab{position:fixed;right:26px;bottom:26px;z-index:50;display:flex;flex-direction:column;
-    align-items:flex-end;gap:12px}
-  .totop{width:48px;height:48px;border-radius:50%;border:1px solid #000;background:#000;color:#fff;
-    font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-    opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,transform .2s,background .15s}
-  .totop.show{opacity:1;visibility:visible;transform:translateY(0)}
-  .totop:hover{background:#fff;color:#000}
-
-  .qn-btn{width:56px;height:56px;border-radius:50%;border:none;background:#000;cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
-    box-shadow:0 6px 20px rgba(0,0,0,.28);transition:background .15s}
-  .qn-btn span{display:block;width:20px;height:2px;background:#fff;transition:transform .22s,opacity .22s}
-  .qn-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-  .qn-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
-  .qn-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-
-  .qn-panel{position:absolute;right:0;bottom:calc(100% + 12px);width:280px;max-width:80vw;
-    max-height:64vh;overflow-y:auto;background:#fff;border:1px solid #000;
-    box-shadow:0 12px 34px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(10px);
-    transition:opacity .2s,transform .2s}
-  .qn-panel.open{opacity:1;visibility:visible;transform:translateY(0)}
-  .qn-head{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);
-    padding:14px 16px 8px}
-  .qn-item{display:flex;align-items:center;gap:11px;padding:11px 16px;font-size:13.5px;font-weight:600;
-    border-top:1px solid var(--line);transition:background .12s}
-  .qn-item:hover{background:#000;color:#fff}
-  .qn-n{font-size:11px;font-weight:800;color:var(--mut);min-width:20px;text-align:center}
-  .qn-item:hover .qn-n{color:#bbb}
-  .qn-list{display:flex;flex-direction:column}
-  @media(max-width:520px){.fab{right:16px;bottom:16px}.qn-btn{width:52px;height:52px}
-    .totop{width:44px;height:44px}}
-
-  /* ---- hero ---- */
-  .hero{padding:54px 0 30px}
-  .hero h1{font-size:clamp(48px,11vw,150px);line-height:.9;font-weight:800;
-    letter-spacing:-.02em}
-  .hero .kr{font-size:clamp(15px,2.6vw,22px);font-weight:700;margin-top:20px;letter-spacing:.02em}
-  .hero .lead{max-width:640px;color:#222;font-size:15px;margin-top:16px}
-  .hero-row{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end;
-    justify-content:space-between;margin-top:30px}
-  .cta{background:#000;color:#fff;font-size:12px;letter-spacing:.14em;font-weight:700;
-    padding:16px 26px;display:inline-flex;gap:12px;align-items:center;text-transform:uppercase;
-    cursor:pointer;border:none}
-  .cta:hover{background:#333}
-
-  /* ---- search ---- */
-  .searchbar{border-top:1px solid #000;border-bottom:1px solid #000;margin-top:40px}
-  .searchbar .wrap{display:flex;align-items:center;gap:16px;padding:0 28px}
-  .searchbar input{flex:1;border:none;outline:none;font-size:20px;padding:22px 0;
-    font-family:inherit;background:transparent}
-  .searchbar .ic{font-size:20px}
-  .searchbar .count{font-size:12px;color:var(--mut);letter-spacing:.08em;white-space:nowrap}
-
-  /* ---- section overview grid ---- */
-  .overview{padding:56px 0 20px;text-align:center;scroll-margin-top:80px}
-  .overview h2{font-size:clamp(30px,6vw,58px);font-weight:800;letter-spacing:-.01em}
-  .overview p{color:var(--mut);margin-top:10px;font-size:14px}
-  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:40px;
-    border:1px solid var(--line)}
-  .card{border:1px solid var(--line);margin:-1px 0 0 -1px;padding:22px 20px;text-align:left;
-    min-height:132px;display:flex;flex-direction:column;justify-content:space-between;
-    cursor:pointer;transition:background .15s;background:#fff}
-  .card:hover{background:#000;color:#fff}
-  .card .num{font-size:11px;letter-spacing:.14em;font-weight:700;color:var(--mut)}
-  .card:hover .num{color:#bbb}
-  .card .t{font-size:16px;font-weight:800;line-height:1.25}
-  .card .arrow{font-size:14px;align-self:flex-end}
-
-  /* ---- big category ---- */
-  .ov-cat{margin:46px 0 6px;text-align:left}
-  .ov-cat .k{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
-  .ov-cat h3{font-size:clamp(19px,3.4vw,28px);font-weight:800;letter-spacing:-.01em;margin-top:6px}
-  .ov-cat p{color:var(--mut);font-size:13px;margin-top:6px}
-  .cat-band{margin:78px 0 8px;padding:30px 0 22px;border-top:3px solid #000}
-  .cat-wrap:first-child .cat-band{margin-top:22px}
-  .cat-band .k{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
-  .cat-band h2{font-size:clamp(26px,5.4vw,50px);font-weight:800;letter-spacing:-.02em;margin-top:10px}
-  .cat-band p{color:#444;font-size:14.5px;margin-top:10px;max-width:780px}
-  .cat-wrap .sec:first-of-type{border-top:none}
-  .drawer-cat{padding:16px 22px 8px;font-size:11px;font-weight:800;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--line);background:var(--soft)}
-  .qn-cat{padding:12px 16px 6px;font-size:10.5px;font-weight:800;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--mut);border-top:1px solid var(--line);background:var(--soft)}
-
-  /* ---- content sections ---- */
-  .content{padding:20px 0 60px}
-  .sec{padding:60px 0 10px;border-top:1px solid var(--line);scroll-margin-top:80px}
-  .sec:first-child{border-top:none}
-  /* 포커스 모드: 선택 섹션만 바로 표시(스크롤 이동 없음) */
-  body.focus .hero,body.focus .overview{display:none}
-  body.focus .sec{display:none}
-  body.focus .cat-band{display:none}
-  body.focus .sec.active{display:block;border-top:none;padding-top:34px}
-  .brand{cursor:pointer}
-  .sec-head{display:flex;gap:22px;align-items:baseline;flex-wrap:wrap;margin-bottom:8px}
-  .sec-no{font-size:13px;font-weight:800;letter-spacing:.12em;
-    border:1px solid #000;padding:4px 10px;color:#000}
-  .sec-title{font-size:clamp(26px,5vw,46px);font-weight:800;letter-spacing:-.01em}
-  .sec-intro{color:#333;font-size:15px;max-width:760px;margin:6px 0 26px}
-
-  .group{margin:30px 0 8px}
-  .group-head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid #000;
-    padding-bottom:8px;margin-bottom:2px;flex-wrap:wrap}
-  .group-sub{font-size:17px;font-weight:800;letter-spacing:.01em}
-  .group-note{color:var(--mut);font-size:13px}
-
-  .items{list-style:none}
-  .item{display:block;padding:22px 4px;border-bottom:1px solid var(--line)}
-  .item .name{font-weight:800;font-size:15.5px}
-  .item .desc{color:#333;font-size:14.5px;margin-top:5px}
-  .ivrow{margin-top:14px}
-  .ivlb{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--mut);margin-bottom:9px}
-  .ivgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-
-  /* ---- reference viewers ---- */
-  .refs{margin:14px 0 22px;padding:18px;background:var(--soft);border:1px solid var(--line)}
-  .refs .lb{font-size:11px;letter-spacing:.14em;font-weight:800;color:var(--mut);
-    text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-  .refs .lb b{color:#000}
-  .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
-  .vcard{border:1px solid var(--line);background:#fff;cursor:pointer;overflow:hidden;
-    display:flex;flex-direction:column;transition:box-shadow .15s,transform .1s}
-  .vcard:hover{box-shadow:0 6px 18px rgba(0,0,0,.14)}
-  .vcard.more{display:none}
-  .vwrap.expanded .vcard.more{display:flex}
-  .vthumb{position:relative;aspect-ratio:16/9;background:#111;display:block}
-  .vthumb img{width:100%;height:100%;object-fit:cover;display:block}
-  .vthumb iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .vplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-  .vplay span{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.72);
-    color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;padding-left:3px;
-    transition:background .15s}
-  .vcard:hover .vplay span{background:#000}
-  .vcap{padding:9px 11px;font-size:12.5px;font-weight:600;line-height:1.35;border-top:1px solid var(--line)}
-  .vcard.playing{grid-column:1/-1;cursor:default}
-  .vcard.playing:hover{box-shadow:none}
-  .vclose{padding:8px 11px;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--mut);
-    border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-  .vclose button{font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.08em;
-    border:1px solid #000;background:#fff;color:#000;padding:5px 10px;cursor:pointer}
-  .vclose button:hover{background:#000;color:#fff}
-  .vclose a{text-decoration:underline;color:var(--mut)}
-  .vmore{margin-top:14px}
-  .vmore button{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.06em;
-    border:1px solid #000;background:#fff;padding:10px 18px;cursor:pointer}
-  .vmore button:hover{background:#000;color:#fff}
-  .vext{display:flex;align-items:center;justify-content:center;text-align:center;padding:22px 12px;
-    font-size:13px;font-weight:700;aspect-ratio:16/9}
-  .vext::after{content:"↗";margin-left:6px;opacity:.55}
-
-  /* ---- footer ---- */
-  footer{border-top:1px solid #000;background:#000;color:#fff;padding:48px 0}
-  footer .big{font-size:clamp(28px,7vw,64px);font-weight:800;letter-spacing:-.01em}
-  footer .sub{color:#999;font-size:13px;margin-top:16px;max-width:620px}
-  footer .lk{display:flex;gap:22px;margin-top:24px;flex-wrap:wrap}
-  footer .lk a{border-bottom:1px solid #555;font-size:13px;padding-bottom:2px}
-  footer .lk a:hover{border-color:#fff}
-
-  @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:720px){
-    .nav ul{display:none}
-  }
-  @media(max-width:520px){.cards{grid-template-columns:1fr}}
+  footer{border-top:1px solid #000;background:#000;color:#fff;padding:44px 0}
+  footer .big{font-size:clamp(22px,5vw,44px);font-weight:800}
+  footer .sub{color:#999;font-size:13px;margin-top:12px}
+  @media(max-width:820px){.cats{grid-template-columns:1fr}.catcard{min-height:0}}
 </style>
 </head>
 <body>
-
 <div class="topbar"></div>
+<nav class="nav"><div class="wrap"><div class="brand">REFERENCE HUB</div><div class="en">HOME</div></div></nav>
 
-<nav class="nav">
-  <div class="wrap">
-    <button class="hamb" id="hambBtn" aria-label="섹션 메뉴 열기" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="brand">프롤로그</div>
-    <ul id="navlist">
-      <li><a href="#overview">SECTIONS</a></li>
-      <li><a href="#s1">풍경</a></li>
-      <li><a href="#s2">발견</a></li>
-      <li><a href="#s3">클라이맥스</a></li>
-      <li><a href="#s4">원시림</a></li>
-    </ul>
+<header class="hero"><div class="wrap">
+  <div class="en">Team Reference Archive</div>
+  <h1>레퍼런스<br>허브</h1>
+  <p class="lead">기획팀 · 연출팀 · 아트팀의 레퍼런스를 한 곳에서. 아래 카테고리를 선택해 들어가면, 페이지 안에서 탭으로 팀을 오갈 수 있습니다.</p>
+  <div class="strip">
+    <span style="background:#030405"></span><span style="background:#0B0C0D"></span><span style="background:#101316"></span><span style="background:#151A1F"></span>
+    <span style="background:#1B2229"></span><span style="background:#2B3643"></span><span style="background:#344150"></span><span style="background:#62758A"></span>
   </div>
-</nav>
+</div></header>
 
-<!-- 섹션 드로어 -->
-<div class="drawer-overlay" id="drawerOv"></div>
-<aside class="drawer" id="drawer" aria-hidden="true" aria-label="섹션 목록">
-  <div class="drawer-head">
-    <span>전체 섹션</span>
-    <button id="drawerClose" aria-label="닫기">✕</button>
-  </div>
-  <nav class="drawer-list" id="drawerList"></nav>
-</aside>
-
-<!-- 우측 하단 퀵네비 -->
-<div class="fab">
-  <div class="qn-panel" id="qnPanel" aria-hidden="true">
-    <div class="qn-head">바로가기</div>
-    <a class="qn-item" href="#top" data-top="1"><span class="qn-n">↑</span><span>맨 위로</span></a>
-    <a class="qn-item" href="#overview"><span class="qn-n">▤</span><span>전체 섹션</span></a>
-    <div class="qn-list" id="qnList"></div>
-  </div>
-  <button class="totop" id="toTop" aria-label="맨 위로 이동">↑</button>
-  <button class="qn-btn" id="qnBtn" aria-label="바로가기 열기" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</div>
-
-<header class="hero">
-  <div class="wrap">
-    <h1>프롤로그</h1>
-    <div class="kr">프롤로그 연출 레퍼런스 정리</div>
-    <div class="hero-row">
-      <p class="lead" id="leadTxt"></p>
-      <button class="cta" onclick="document.getElementById('overview').scrollIntoView()">
-        전체 섹션 보기 <span>↘</span></button>
+<main><div class="wrap">
+  <div class="cats">
+    <a class="catcard" href="hub/index.html#planning">
+      <div><div class="n">CATEGORY 01</div><h2>기획팀<br>설정 파트 영상 레퍼</h2>
+        <p>풍경 롱샷 · 주변 상황 발견 · 클라이맥스 · 원시림 공포. 유튜브 인라인 뷰어(타임라인 재생).</p></div>
+      <div class="go">들어가기 <span>→</span></div>
+    </a>
+    <a class="catcard" href="hub/index.html#directing">
+      <div><div class="n">CATEGORY 02</div><h2>연출팀<br>비주얼 레퍼런스</h2>
+        <p>포레스트 컬러칩(CSS 색상값) · 키샷 표 · 기계부품 나무. 이미지 클릭 시 확대.</p></div>
+      <div class="go">들어가기 <span>→</span></div>
+    </a>
+    <div class="catcard soon">
+      <div><div class="n">CATEGORY 03</div><h2>아트팀</h2>
+        <p>콘텐츠 추가 예정.</p><span class="badge">준비 중</span></div>
+      <div class="go" style="color:var(--mut)">준비 중</div>
     </div>
   </div>
-</header>
+</div></main>
 
-<div class="searchbar">
-  <div class="wrap">
-    <span class="ic">⌕</span>
-    <input id="search" type="text" placeholder="프롤로그 연출 검색 — 예: 롱샷, 풍경, 클라이막스, 원시림…" autocomplete="off">
-    <span class="count" id="count"></span>
-  </div>
-</div>
-
-<main>
-  <section class="overview" id="overview">
-    <div class="wrap">
-      <h2 id="ovTitle"></h2>
-      <p id="ovDesc"></p>
-      <div id="cards"></div>
-    </div>
-  </section>
-
-  <div class="content wrap" id="content"></div>
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="big" id="ftBig"></div>
-    <p class="sub" id="ftSub"></p>
-    <div class="lk" id="ftLinks"></div>
-  </div>
-</footer>
-
-<script>
-function __bootRefPage(){
-  var D = window.REF_DATA;
-  var CATS = (D.categories && D.categories.length) ? D.categories : [{id:null,title:null}];
-  function sectionsOf(catId){ return D.sections.filter(function(s){ return (s.cat||null)===catId; }); }
-  document.getElementById('leadTxt').textContent = D.meta.lead;
-  document.getElementById('ovTitle').textContent = D.meta.overviewTitle || (D.sections.length + ' SECTIONS');
-  document.getElementById('ovDesc').textContent = D.meta.overviewDesc || '';
-
-  /* ---- footer ---- */
-  if(D.footer){
-    document.getElementById('ftBig').innerHTML = D.footer.big || '';
-    document.getElementById('ftSub').textContent = D.footer.sub || '';
-    var ftLinks = document.getElementById('ftLinks');
-    (D.footer.links||[]).forEach(function(l){
-      var a=document.createElement('a');
-      a.href=l.url; a.target='_blank'; a.rel='noopener'; a.textContent=l.label+' ↗';
-      ftLinks.appendChild(a);
-    });
-  }
-
-  function ytId(u){
-    var m = u.match(/[?&]v=([^&]+)/) || u.match(/youtu\.be\/([^?&]+)/) || u.match(/embed\/([^?&]+)/);
-    return m ? m[1] : null;
-  }
-  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':t;return d.innerHTML;}
-  function pad(n){return String(n).length<2?'0'+n:''+n;}
-
-  /* ---- overview cards (카테고리별) ---- */
-  var cardsHost = document.getElementById('cards');
-  CATS.forEach(function(c){
-    if(c.title){
-      var lab=document.createElement('div'); lab.className='ov-cat';
-      lab.innerHTML='<span class="k">CATEGORY</span><h3>'+esc(c.title)+'</h3>'+
-                    (c.desc?'<p>'+esc(c.desc)+'</p>':'');
-      cardsHost.appendChild(lab);
-    }
-    var grid=document.createElement('div'); grid.className='cards';
-    sectionsOf(c.id||null).forEach(function(s){
-      var a = document.createElement('a');
-      a.className='card'; a.href='#s'+s.n;
-      a.innerHTML = '<div class="num">SECTION '+pad(s.n)+'</div>'+
-                    '<div class="t">'+esc(s.title)+'</div>'+
-                    '<div class="arrow">↗</div>';
-      grid.appendChild(a);
-    });
-    cardsHost.appendChild(grid);
-  });
-
-  /* ---- 단일 뷰어 카드 ---- */
-  function vcardHtml(r,moreCls){
-    moreCls = moreCls||'';
-    var id = r.id || ytId(r.url);
-    if(id){
-      return '<div class="vcard'+moreCls+'" data-yt="'+id+'" data-s="'+(r.start||0)+'" data-t="'+esc(r.label)+'" data-u="'+esc(r.url)+'">'+
-               '<div class="vthumb"><img loading="lazy" src="https://i.ytimg.com/vi/'+id+'/mqdefault.jpg" '+
-                 'alt="'+esc(r.label)+'" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg\'">'+
-                 '<div class="vplay"><span>&#9654;</span></div></div>'+
-               '<div class="vcap">'+esc(r.label)+'</div>'+
-             '</div>';
-    }
-    return '<a class="vcard'+moreCls+'" href="'+esc(r.url)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#000">'+
-             '<div class="vext">'+esc(r.label)+'</div>'+
-             '<div class="vcap">공식 페이지 · 새 탭에서 열기</div>'+
-           '</a>';
-  }
-
-  /* ---- 항목별 뷰어 : 설명 바로 아래 ---- */
-  function itemViewer(it){
-    if(!it.refs || !it.refs.length) return '';
-    var out = '<div class="ivrow"><span class="ivlb">▶ 뷰어</span><div class="ivgrid">';
-    it.refs.forEach(function(r){ out += vcardHtml(r); });
-    out += '</div></div>';
-    return out;
-  }
-
-  /* ---- 그룹 폴백 뷰어 (항목에 매칭이 없는 경우) ---- */
-  function refsHtml(g){
-    if(!g.refs || !g.refs.length) return '';
-    var out = '<div class="refs"><div class="lb">레퍼런스 뷰어 · 썸네일을 누르면 그 자리에서 바로 재생</div>'+
-              '<div class="vgrid">';
-    g.refs.forEach(function(r){ out += vcardHtml(r); });
-    out += '</div></div>';
-    return out;
-  }
-
-  /* ---- render sections (카테고리 래퍼 안에) ---- */
-  var content = document.getElementById('content');
-  CATS.forEach(function(c){
-   var wrap = document.createElement('div'); wrap.className='cat-wrap'; wrap.setAttribute('data-cat', c.id||'');
-   if(c.title){
-     var band=document.createElement('div'); band.className='cat-band';
-     band.innerHTML='<span class="k">CATEGORY</span><h2>'+esc(c.title)+'</h2>'+
-                    (c.desc?'<p>'+esc(c.desc)+'</p>':'');
-     wrap.appendChild(band);
-   }
-   sectionsOf(c.id||null).forEach(function(s){
-    var sec = document.createElement('section');
-    sec.className='sec'; sec.id='s'+s.n;
-
-    var html = '<div class="sec-head"><span class="sec-no">'+pad(s.n)+'</span>'+
-               '<h3 class="sec-title">'+esc(s.title)+'</h3></div>';
-    if(s.intro) html += '<p class="sec-intro">'+esc(s.intro)+'</p>';
-
-    s.groups.forEach(function(g){
-      html += '<div class="group">';
-      html += '<div class="group-head"><span class="group-sub">'+esc(g.sub)+'</span>'+
-              (g.note?'<span class="group-note">'+esc(g.note)+'</span>':'')+'</div>';
-
-      html += '<ul class="items">';
-      g.items.forEach(function(it){
-        html += '<li class="item" data-name="'+esc(it.name)+'" data-desc="'+esc(it.desc||'')+'">'+
-                '<div class="name">'+esc(it.name)+'</div>'+
-                (it.desc?'<div class="desc">'+esc(it.desc)+'</div>':'')+
-                itemViewer(it)+   // 항목 설명 바로 아래에 매칭 뷰어
-                '</li>';
-      });
-      html += '</ul>';
-
-      // 항목 매칭이 없는 그룹은 그룹 단위 뷰어로 폴백
-      html += refsHtml(g);
-      html += '</div>';
-    });
-
-    sec.innerHTML = html;
-    wrap.appendChild(sec);
-   });
-   content.appendChild(wrap);
-  });
-
-  /* ---- inline viewer play ---- */
-  function playCard(card){
-    if(card.classList.contains('playing')) return;
-    var id=card.getAttribute('data-yt'), title=card.getAttribute('data-t'), url=card.getAttribute('data-u'),
-        start=parseInt(card.getAttribute('data-s'),10)||0;
-    card.classList.add('playing');
-    card.innerHTML='<div class="vthumb"><iframe src="https://www.youtube.com/embed/'+id+
-        '?autoplay=1&rel=0'+(start?('&start='+start):'')+'" title="'+esc(title)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>'+
-      '<div class="vcap">'+esc(title)+'</div>'+
-      '<div class="vclose"><a href="'+esc(url)+'" target="_blank" rel="noopener">유튜브에서 열기 ↗</a>'+
-        '<button type="button" class="stopBtn">✕ 닫기</button></div>';
-  }
-  function stopCard(card){
-    var id=card.getAttribute('data-yt'), title=card.getAttribute('data-t'), url=card.getAttribute('data-u');
-    card.classList.remove('playing');
-    card.innerHTML='<div class="vthumb"><img loading="lazy" src="https://i.ytimg.com/vi/'+id+'/mqdefault.jpg" '+
-        'alt="'+esc(title)+'" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg\'">'+
-        '<div class="vplay"><span>&#9654;</span></div></div><div class="vcap">'+esc(title)+'</div>';
-  }
-  content.addEventListener('click',function(e){
-    if(!e.target.closest) return;
-    var stop=e.target.closest('.stopBtn');
-    if(stop){ e.preventDefault(); stopCard(stop.closest('.vcard')); return; }
-    var moreBtn=e.target.closest('.moreBtn');
-    if(moreBtn){ var wrap=moreBtn.closest('.vwrap'); wrap.classList.add('expanded'); moreBtn.parentNode.style.display='none'; return; }
-    var card=e.target.closest('.vcard[data-yt]');
-    if(card) playCard(card);
-  });
-
-  /* ---- search ---- */
-  var search=document.getElementById('search'), count=document.getElementById('count');
-  var items=Array.prototype.slice.call(document.querySelectorAll('.item'));
-  var groups=Array.prototype.slice.call(document.querySelectorAll('.group'));
-  var secs=Array.prototype.slice.call(document.querySelectorAll('.sec'));
-  var catwraps=Array.prototype.slice.call(document.querySelectorAll('.cat-wrap'));
-  var total=items.length;
-  function setCount(n){count.textContent=n+' / '+total+' 연출';}
-  setCount(total);
-
-  /* ---- 섹션 포커스 이동 (스크롤 없이 해당 섹션만 표시) ---- */
-  function clearFilter(){
-    search.value='';
-    items.forEach(function(it){it.style.display='';});
-    groups.forEach(function(g){g.style.display='';});
-    secs.forEach(function(s){s.style.display='';});
-    catwraps.forEach(function(w){w.style.display='';});
-    setCount(total);
-  }
-  function goSection(n){
-    clearFilter();
-    document.body.classList.add('focus');
-    secs.forEach(function(s){ s.classList.toggle('active', s.id==='s'+n); });
-    window.scrollTo(0,0);
-  }
-  function showAll(){
-    document.body.classList.remove('focus');
-    secs.forEach(function(s){ s.classList.remove('active'); });
-    window.scrollTo(0,0);
-  }
-  window.__goSection=goSection; window.__showAll=showAll;
-
-  search.addEventListener('input',function(){
-    if(document.body.classList.contains('focus')){ document.body.classList.remove('focus');
-      secs.forEach(function(s){s.classList.remove('active');}); }
-    var q=search.value.trim().toLowerCase(), shown=0;
-    items.forEach(function(it){
-      var hit = !q || (it.dataset.name+' '+it.dataset.desc).toLowerCase().indexOf(q)>=0;
-      it.style.display=hit?'':'none'; if(hit)shown++;
-    });
-    groups.forEach(function(g){
-      var any=Array.prototype.some.call(g.querySelectorAll('.item'),function(i){return i.style.display!=='none';});
-      g.style.display=any?'':'none';
-    });
-    secs.forEach(function(s){
-      var any=Array.prototype.some.call(s.querySelectorAll('.group'),function(g){return g.style.display!=='none';});
-      s.style.display=any?'':'none';
-    });
-    catwraps.forEach(function(w){
-      var any=Array.prototype.some.call(w.querySelectorAll('.sec'),function(s){return s.style.display!=='none';});
-      w.style.display=any?'':'none';
-    });
-    setCount(shown);
-  });
-
-  /* ---- 섹션 드로어 ---- */
-  var drawer=document.getElementById('drawer'), drawerOv=document.getElementById('drawerOv'),
-      drawerList=document.getElementById('drawerList'), hambBtn=document.getElementById('hambBtn');
-  CATS.forEach(function(c){
-    if(c.title){ var h=document.createElement('div'); h.className='drawer-cat'; h.textContent=c.title; drawerList.appendChild(h); }
-    sectionsOf(c.id||null).forEach(function(s){
-      var a=document.createElement('a');
-      a.href='#s'+s.n;
-      a.innerHTML='<span class="dn">'+pad(s.n)+'</span><span>'+esc(s.title)+'</span>';
-      drawerList.appendChild(a);
-    });
-  });
-  function openDrawer(){drawer.classList.add('open');drawerOv.classList.add('open');
-    drawer.setAttribute('aria-hidden','false');hambBtn.setAttribute('aria-expanded','true');
-    document.body.style.overflow='hidden';}
-  function closeDrawer(){drawer.classList.remove('open');drawerOv.classList.remove('open');
-    drawer.setAttribute('aria-hidden','true');hambBtn.setAttribute('aria-expanded','false');
-    document.body.style.overflow='';}
-  hambBtn.addEventListener('click',openDrawer);
-  document.getElementById('drawerClose').addEventListener('click',closeDrawer);
-  drawerOv.addEventListener('click',closeDrawer);
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeDrawer(); });
-
-  /* ---- 맨 위로 (즉시) ---- */
-  var toTop=document.getElementById('toTop');
-  window.addEventListener('scroll',function(){
-    if(window.pageYOffset>400) toTop.classList.add('show'); else toTop.classList.remove('show');
-  },{passive:true});
-  toTop.addEventListener('click',function(){ window.scrollTo(0,0); });
-
-  /* ---- 우측 하단 퀵네비 ---- */
-  var qnBtn=document.getElementById('qnBtn'), qnPanel=document.getElementById('qnPanel'),
-      qnList=document.getElementById('qnList');
-  CATS.forEach(function(c){
-    if(c.title){ var h=document.createElement('div'); h.className='qn-cat'; h.textContent=c.title; qnList.appendChild(h); }
-    sectionsOf(c.id||null).forEach(function(s){
-      var a=document.createElement('a');
-      a.className='qn-item'; a.href='#s'+s.n;
-      a.innerHTML='<span class="qn-n">'+pad(s.n)+'</span><span>'+esc(s.title)+'</span>';
-      qnList.appendChild(a);
-    });
-  });
-  function openQN(){qnPanel.classList.add('open');qnPanel.setAttribute('aria-hidden','false');
-    qnBtn.setAttribute('aria-expanded','true');}
-  function closeQN(){qnPanel.classList.remove('open');qnPanel.setAttribute('aria-hidden','true');
-    qnBtn.setAttribute('aria-expanded','false');}
-  qnBtn.addEventListener('click',function(e){
-    e.stopPropagation();
-    if(qnPanel.classList.contains('open')) closeQN(); else openQN();
-  });
-  document.addEventListener('click',function(e){
-    if(qnPanel.classList.contains('open') && !e.target.closest('.fab')) closeQN();
-  });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeQN(); });
-
-  /* ---- 통합 내비게이션: 앵커 클릭 시 스크롤 없이 즉시 해당 섹션 표시 ---- */
-  document.addEventListener('click',function(e){
-    var a=e.target.closest && e.target.closest('a[href^="#"]');
-    if(!a) return;
-    var href=a.getAttribute('href');
-    if(a.getAttribute('data-top')||href==='#top'){
-      e.preventDefault(); showAll(); closeDrawer(); closeQN(); return;
-    }
-    if(href==='#overview'){
-      e.preventDefault(); showAll(); closeDrawer(); closeQN(); return;
-    }
-    var m=href.match(/^#s(\d+)$/);
-    if(m){ e.preventDefault(); goSection(+m[1]); closeDrawer(); closeQN(); }
-  });
-  document.querySelector('.brand').addEventListener('click',function(){ showAll(); });
-}
-/* data.js 를 매 로드마다 캐시 무효화하여 가져옴 → 콘텐츠 수정이 즉시 반영됨 */
-(function(){
-  var s=document.createElement('script');
-  s.src='data.js?t='+Date.now();
-  s.onload=__bootRefPage;
-  s.onerror=function(){ document.getElementById('content').innerHTML=
-    '<p style="padding:40px 4px">데이터를 불러오지 못했습니다. 새로고침 해주세요.</p>'; };
-  document.head.appendChild(s);
-})();
-</script>
+<footer><div class="wrap"><div class="big">REFERENCE HUB</div><p class="sub">기획팀 · 연출팀 · 아트팀 · 팀별 레퍼런스 아카이브</p></div></footer>
 </body>
 </html>
