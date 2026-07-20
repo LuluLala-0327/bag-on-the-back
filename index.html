@@ -128,6 +128,22 @@
   .card .t{font-size:16px;font-weight:800;line-height:1.25}
   .card .arrow{font-size:14px;align-self:flex-end}
 
+  /* ---- big category ---- */
+  .ov-cat{margin:46px 0 6px;text-align:left}
+  .ov-cat .k{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
+  .ov-cat h3{font-size:clamp(19px,3.4vw,28px);font-weight:800;letter-spacing:-.01em;margin-top:6px}
+  .ov-cat p{color:var(--mut);font-size:13px;margin-top:6px}
+  .cat-band{margin:78px 0 8px;padding:30px 0 22px;border-top:3px solid #000}
+  .cat-wrap:first-child .cat-band{margin-top:22px}
+  .cat-band .k{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
+  .cat-band h2{font-size:clamp(26px,5.4vw,50px);font-weight:800;letter-spacing:-.02em;margin-top:10px}
+  .cat-band p{color:#444;font-size:14.5px;margin-top:10px;max-width:780px}
+  .cat-wrap .sec:first-of-type{border-top:none}
+  .drawer-cat{padding:16px 22px 8px;font-size:11px;font-weight:800;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--line);background:var(--soft)}
+  .qn-cat{padding:12px 16px 6px;font-size:10.5px;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--mut);border-top:1px solid var(--line);background:var(--soft)}
+
   /* ---- content sections ---- */
   .content{padding:20px 0 60px}
   .sec{padding:60px 0 10px;border-top:1px solid var(--line);scroll-margin-top:80px}
@@ -135,6 +151,7 @@
   /* 포커스 모드: 선택 섹션만 바로 표시(스크롤 이동 없음) */
   body.focus .hero,body.focus .overview{display:none}
   body.focus .sec{display:none}
+  body.focus .cat-band{display:none}
   body.focus .sec.active{display:block;border-top:none;padding-top:34px}
   .brand{cursor:pointer}
   .sec-head{display:flex;gap:22px;align-items:baseline;flex-wrap:wrap;margin-bottom:8px}
@@ -277,7 +294,7 @@
     <div class="wrap">
       <h2 id="ovTitle"></h2>
       <p id="ovDesc"></p>
-      <div class="cards" id="cards"></div>
+      <div id="cards"></div>
     </div>
   </section>
 
@@ -296,6 +313,8 @@
 <script>
 (function(){
   var D = window.REF_DATA;
+  var CATS = (D.categories && D.categories.length) ? D.categories : [{id:null,title:null}];
+  function sectionsOf(catId){ return D.sections.filter(function(s){ return (s.cat||null)===catId; }); }
   document.getElementById('leadTxt').textContent = D.meta.lead;
   document.getElementById('ovTitle').textContent = D.meta.overviewTitle || (D.sections.length + ' SECTIONS');
   document.getElementById('ovDesc').textContent = D.meta.overviewDesc || '';
@@ -319,15 +338,25 @@
   function esc(t){var d=document.createElement('div');d.textContent=t==null?'':t;return d.innerHTML;}
   function pad(n){return String(n).length<2?'0'+n:''+n;}
 
-  /* ---- overview cards ---- */
-  var cardsEl = document.getElementById('cards');
-  D.sections.forEach(function(s){
-    var a = document.createElement('a');
-    a.className='card'; a.href='#s'+s.n;
-    a.innerHTML = '<div class="num">SECTION '+pad(s.n)+'</div>'+
-                  '<div class="t">'+esc(s.title)+'</div>'+
-                  '<div class="arrow">↗</div>';
-    cardsEl.appendChild(a);
+  /* ---- overview cards (카테고리별) ---- */
+  var cardsHost = document.getElementById('cards');
+  CATS.forEach(function(c){
+    if(c.title){
+      var lab=document.createElement('div'); lab.className='ov-cat';
+      lab.innerHTML='<span class="k">CATEGORY</span><h3>'+esc(c.title)+'</h3>'+
+                    (c.desc?'<p>'+esc(c.desc)+'</p>':'');
+      cardsHost.appendChild(lab);
+    }
+    var grid=document.createElement('div'); grid.className='cards';
+    sectionsOf(c.id||null).forEach(function(s){
+      var a = document.createElement('a');
+      a.className='card'; a.href='#s'+s.n;
+      a.innerHTML = '<div class="num">SECTION '+pad(s.n)+'</div>'+
+                    '<div class="t">'+esc(s.title)+'</div>'+
+                    '<div class="arrow">↗</div>';
+      grid.appendChild(a);
+    });
+    cardsHost.appendChild(grid);
   });
 
   /* ---- 단일 뷰어 카드 ---- */
@@ -367,9 +396,17 @@
     return out;
   }
 
-  /* ---- render sections ---- */
+  /* ---- render sections (카테고리 래퍼 안에) ---- */
   var content = document.getElementById('content');
-  D.sections.forEach(function(s){
+  CATS.forEach(function(c){
+   var wrap = document.createElement('div'); wrap.className='cat-wrap'; wrap.setAttribute('data-cat', c.id||'');
+   if(c.title){
+     var band=document.createElement('div'); band.className='cat-band';
+     band.innerHTML='<span class="k">CATEGORY</span><h2>'+esc(c.title)+'</h2>'+
+                    (c.desc?'<p>'+esc(c.desc)+'</p>':'');
+     wrap.appendChild(band);
+   }
+   sectionsOf(c.id||null).forEach(function(s){
     var sec = document.createElement('section');
     sec.className='sec'; sec.id='s'+s.n;
 
@@ -398,7 +435,9 @@
     });
 
     sec.innerHTML = html;
-    content.appendChild(sec);
+    wrap.appendChild(sec);
+   });
+   content.appendChild(wrap);
   });
 
   /* ---- inline viewer play ---- */
@@ -435,6 +474,7 @@
   var items=Array.prototype.slice.call(document.querySelectorAll('.item'));
   var groups=Array.prototype.slice.call(document.querySelectorAll('.group'));
   var secs=Array.prototype.slice.call(document.querySelectorAll('.sec'));
+  var catwraps=Array.prototype.slice.call(document.querySelectorAll('.cat-wrap'));
   var total=items.length;
   function setCount(n){count.textContent=n+' / '+total+' 연출';}
   setCount(total);
@@ -445,6 +485,7 @@
     items.forEach(function(it){it.style.display='';});
     groups.forEach(function(g){g.style.display='';});
     secs.forEach(function(s){s.style.display='';});
+    catwraps.forEach(function(w){w.style.display='';});
     setCount(total);
   }
   function goSection(n){
@@ -476,17 +517,24 @@
       var any=Array.prototype.some.call(s.querySelectorAll('.group'),function(g){return g.style.display!=='none';});
       s.style.display=any?'':'none';
     });
+    catwraps.forEach(function(w){
+      var any=Array.prototype.some.call(w.querySelectorAll('.sec'),function(s){return s.style.display!=='none';});
+      w.style.display=any?'':'none';
+    });
     setCount(shown);
   });
 
   /* ---- 섹션 드로어 ---- */
   var drawer=document.getElementById('drawer'), drawerOv=document.getElementById('drawerOv'),
       drawerList=document.getElementById('drawerList'), hambBtn=document.getElementById('hambBtn');
-  D.sections.forEach(function(s){
-    var a=document.createElement('a');
-    a.href='#s'+s.n;
-    a.innerHTML='<span class="dn">'+pad(s.n)+'</span><span>'+esc(s.title)+'</span>';
-    drawerList.appendChild(a);
+  CATS.forEach(function(c){
+    if(c.title){ var h=document.createElement('div'); h.className='drawer-cat'; h.textContent=c.title; drawerList.appendChild(h); }
+    sectionsOf(c.id||null).forEach(function(s){
+      var a=document.createElement('a');
+      a.href='#s'+s.n;
+      a.innerHTML='<span class="dn">'+pad(s.n)+'</span><span>'+esc(s.title)+'</span>';
+      drawerList.appendChild(a);
+    });
   });
   function openDrawer(){drawer.classList.add('open');drawerOv.classList.add('open');
     drawer.setAttribute('aria-hidden','false');hambBtn.setAttribute('aria-expanded','true');
@@ -509,11 +557,14 @@
   /* ---- 우측 하단 퀵네비 ---- */
   var qnBtn=document.getElementById('qnBtn'), qnPanel=document.getElementById('qnPanel'),
       qnList=document.getElementById('qnList');
-  D.sections.forEach(function(s){
-    var a=document.createElement('a');
-    a.className='qn-item'; a.href='#s'+s.n;
-    a.innerHTML='<span class="qn-n">'+pad(s.n)+'</span><span>'+esc(s.title)+'</span>';
-    qnList.appendChild(a);
+  CATS.forEach(function(c){
+    if(c.title){ var h=document.createElement('div'); h.className='qn-cat'; h.textContent=c.title; qnList.appendChild(h); }
+    sectionsOf(c.id||null).forEach(function(s){
+      var a=document.createElement('a');
+      a.className='qn-item'; a.href='#s'+s.n;
+      a.innerHTML='<span class="qn-n">'+pad(s.n)+'</span><span>'+esc(s.title)+'</span>';
+      qnList.appendChild(a);
+    });
   });
   function openQN(){qnPanel.classList.add('open');qnPanel.setAttribute('aria-hidden','false');
     qnBtn.setAttribute('aria-expanded','true');}
