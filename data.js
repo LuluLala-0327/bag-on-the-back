@@ -98,9 +98,7 @@
           I("Childish Gambino — This Is America","전경의 퍼포먼스가 주의를 붙잡는 동안 후경에서 폭력과 혼란이 진행된다. 재관찰을 유도하는 다층 정보 구성이다.",
             [["공식 MV","VYOjWnS4cMY",0]]),
           I("A$AP Rocky — A$AP Forever","카메라 회전과 공간 전환으로 위·아래·측면의 정보를 연속적으로 재배치한다. 시점 자체가 장면 전환 장치가 된다.",
-            [["공식 MV","BNzc6hG3yN4",0]]),
-          I("Biting Elbows — Bad Motherfucker","신체 밀착 1인칭 액션. 손·충돌·추격 대상이 전경을 차지하고, 측면에서 새 위협이 끊임없이 들어온다.",
-            [["공식 영상","Rgox84KE7iY",0]])
+            [["공식 MV","BNzc6hG3yN4",0]])
         ]},
       {sub:"영화 레퍼런스",
         items:[
