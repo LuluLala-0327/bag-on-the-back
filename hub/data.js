@@ -103,6 +103,7 @@ window.REF_DATA = {
    "groups": [
     {
      "sub": "실루엣 나무 / 구조물",
+     "layout": "masonry",
      "note": "이미지 칸 · silhouette-1..4.png",
      "imgs": [
       {
@@ -137,6 +138,7 @@ window.REF_DATA = {
    "groups": [
     {
      "sub": "숲 / 정글 무드",
+     "layout": "masonry",
      "note": "이미지 칸 · mood-1..4.png",
      "imgs": [
       {
@@ -171,6 +173,7 @@ window.REF_DATA = {
    "groups": [
     {
      "sub": "게임 스크린샷",
+     "layout": "masonry",
      "note": "이미지 칸 · screenshot-1..4.png",
      "imgs": [
       {
