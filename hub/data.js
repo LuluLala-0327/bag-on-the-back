@@ -140,6 +140,16 @@ window.REF_DATA = {
        "label": "실루엣 4",
        "src": "img/silhouette-4.png",
        "link": "img/silhouette-4.png"
+      },
+      {
+       "label": "실루엣 5",
+       "src": "img/silhouette-5.png",
+       "link": "img/silhouette-5.png"
+      },
+      {
+       "label": "실루엣 6",
+       "src": "img/silhouette-6.png",
+       "link": "img/silhouette-6.png"
       }
      ]
     }
@@ -175,6 +185,36 @@ window.REF_DATA = {
        "label": "무드 4",
        "src": "img/mood-4.png",
        "link": "img/mood-4.png"
+      },
+      {
+       "label": "무드 5",
+       "src": "img/mood-5.png",
+       "link": "img/mood-5.png"
+      },
+      {
+       "label": "무드 6",
+       "src": "img/mood-6.png",
+       "link": "img/mood-6.png"
+      },
+      {
+       "label": "무드 7",
+       "src": "img/mood-7.png",
+       "link": "img/mood-7.png"
+      },
+      {
+       "label": "무드 8",
+       "src": "img/mood-8.png",
+       "link": "img/mood-8.png"
+      },
+      {
+       "label": "무드 9",
+       "src": "img/mood-9.png",
+       "link": "img/mood-9.png"
+      },
+      {
+       "label": "무드 10",
+       "src": "img/mood-10.png",
+       "link": "img/mood-10.png"
       }
      ]
     }
@@ -205,11 +245,6 @@ window.REF_DATA = {
        "label": "스크린샷 3",
        "src": "img/screenshot-3.png",
        "link": "img/screenshot-3.png"
-      },
-      {
-       "label": "스크린샷 4",
-       "src": "img/screenshot-4.png",
-       "link": "img/screenshot-4.png"
       }
      ]
     }

@@ -6,9 +6,9 @@
 | 칸 | 파일명 |
 |---|---|
 | 포획 기둥 레퍼런스 (masonry · 14장) | `pillar-1.png` ~ `pillar-14.png` (가로 이미지는 자동으로 넓게 배치) |
-| 기괴한 실루엣의 나무 / 구조물 | `silhouette-1.png` ~ `silhouette-4.png` |
-| 숲 / 정글 무드 | `mood-1.png` ~ `mood-4.png` |
-| 게임 스크린샷 레퍼런스 | `screenshot-1.png` ~ `screenshot-4.png` |
+| 기괴한 실루엣의 나무 / 구조물 (6장) | `silhouette-1.png` ~ `silhouette-6.png` |
+| 숲 / 정글 무드 (10장) | `mood-1.png` ~ `mood-10.png` |
+| 게임 스크린샷 레퍼런스 (3장) | `screenshot-1.png` ~ `screenshot-3.png` |
 
 ## 올리는 법 (GitHub 웹)
 1. 이 폴더에서 **Add file → Upload files**
