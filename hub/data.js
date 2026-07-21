@@ -164,6 +164,8 @@ window.REF_DATA = {
     {
      "sub": "숲 / 정글 무드",
      "layout": "masonry",
+     "col": 150,
+     "nowide": true,
      "note": "이미지 칸 · mood-1..4.png",
      "imgs": [
       {
@@ -228,7 +230,8 @@ window.REF_DATA = {
    "groups": [
     {
      "sub": "게임 스크린샷",
-     "layout": "masonry",
+     "layout": "grid",
+     "cols": 3,
      "note": "이미지 칸 · screenshot-1..4.png",
      "imgs": [
       {

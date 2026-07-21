@@ -137,6 +137,12 @@
   .mzitem .imgslot{min-height:260px}
   @media(max-width:560px){.masonry{columns:2 150px}}
 
+  .imgrid{display:grid;gap:12px;margin-top:14px;align-items:start}
+  .gitem{position:relative;overflow:hidden;border:1px solid var(--line);background:#0b0c0d;cursor:zoom-in}
+  .gitem img{width:100%;height:auto;display:block}
+  .gitem figcaption{position:absolute;left:0;right:0;bottom:0;padding:8px 10px;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.78));opacity:0;transition:opacity .2s}
+  .gitem:hover figcaption{opacity:1}
+
   .lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:24px}
   .lightbox.open{display:flex}
   .lightbox img{max-width:94vw;max-height:92vh;object-fit:contain;box-shadow:0 10px 44px rgba(0,0,0,.55)}
@@ -224,9 +230,18 @@ function __bootHub(){
   function groupBody(g){
     var h='';
     if(g.layout==='masonry'){
-      h+='<div class="masonry">';
+      var mstyle=g.col?(' style="columns:'+g.col+'px"'):'';
+      var onl=g.nowide?'':' onload="if(this.naturalWidth>this.naturalHeight*1.25)this.parentNode.classList.add(\'wide\')"';
+      h+='<div class="masonry"'+mstyle+'>';
       (g.imgs||[]).forEach(function(im){
-        h+='<figure class="mzitem" data-full="'+esc(im.src)+'" data-cap="'+esc(im.label||'')+'"><img loading="lazy" src="'+esc(im.src)+'" alt="'+esc(im.label||'')+'" onload="if(this.naturalWidth>this.naturalHeight*1.25)this.parentNode.classList.add(\'wide\')" onerror="'+ONERR+'"><figcaption>'+esc(im.label||'')+'</figcaption></figure>';
+        h+='<figure class="mzitem" data-full="'+esc(im.src)+'" data-cap="'+esc(im.label||'')+'"><img loading="lazy" src="'+esc(im.src)+'" alt="'+esc(im.label||'')+'"'+onl+' onerror="'+ONERR+'"><figcaption>'+esc(im.label||'')+'</figcaption></figure>';
+      });
+      h+='</div>'; return h;
+    }
+    if(g.layout==='grid'){
+      h+='<div class="imgrid" style="grid-template-columns:repeat('+(g.cols||3)+',1fr)">';
+      (g.imgs||[]).forEach(function(im){
+        h+='<figure class="gitem" data-full="'+esc(im.src)+'" data-cap="'+esc(im.label||'')+'"><img loading="lazy" src="'+esc(im.src)+'" alt="'+esc(im.label||'')+'" onerror="'+ONERR+'"><figcaption>'+esc(im.label||'')+'</figcaption></figure>';
       });
       h+='</div>'; return h;
     }
