@@ -164,7 +164,9 @@ window.REF_DATA = {
     {
      "sub": "숲 / 정글 무드",
      "layout": "masonry",
-     "col": 150,
+     "cols": 3,
+     "gap": 0,
+     "bounce": false,
      "nowide": true,
      "note": "이미지 칸 · mood-1..4.png",
      "imgs": [
