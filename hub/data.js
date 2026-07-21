@@ -34,7 +34,7 @@ window.REF_DATA = {
     {
      "sub": "포획 기둥",
      "layout": "masonry",
-     "note": "세로 이미지 위주 · 마우스 반응 · 클릭 확대 · pillar-1..11.png",
+     "note": "세로 이미지 위주 · 마우스 반응 · 클릭 확대 · pillar-1..14.png",
      "imgs": [
       {
        "label": "포획 기둥 1",
@@ -90,6 +90,21 @@ window.REF_DATA = {
        "label": "포획 기둥 11",
        "src": "img/pillar-11.png",
        "link": "img/pillar-11.png"
+      },
+      {
+       "label": "포획 기둥 12",
+       "src": "img/pillar-12.png",
+       "link": "img/pillar-12.png"
+      },
+      {
+       "label": "포획 기둥 13",
+       "src": "img/pillar-13.png",
+       "link": "img/pillar-13.png"
+      },
+      {
+       "label": "포획 기둥 14",
+       "src": "img/pillar-14.png",
+       "link": "img/pillar-14.png"
       }
      ]
     }

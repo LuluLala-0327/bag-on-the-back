@@ -5,7 +5,7 @@
 
 | 칸 | 파일명 |
 |---|---|
-| 포획 기둥 레퍼런스 (masonry · 11장) | `pillar-1.png` ~ `pillar-11.png` (가로 이미지는 자동으로 넓게 배치) |
+| 포획 기둥 레퍼런스 (masonry · 14장) | `pillar-1.png` ~ `pillar-14.png` (가로 이미지는 자동으로 넓게 배치) |
 | 기괴한 실루엣의 나무 / 구조물 | `silhouette-1.png` ~ `silhouette-4.png` |
 | 숲 / 정글 무드 | `mood-1.png` ~ `mood-4.png` |
 | 게임 스크린샷 레퍼런스 | `screenshot-1.png` ~ `screenshot-4.png` |
