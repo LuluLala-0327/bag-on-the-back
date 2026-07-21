@@ -29,11 +29,12 @@ window.REF_DATA = {
    "n": 1,
    "cat": "planning",
    "title": "포획 기둥 레퍼런스",
-   "intro": "포획 기둥 관련 이미지 레퍼런스. 이미지를 클릭하면 크게 볼 수 있습니다.",
+   "intro": "포획 기둥 이미지 레퍼런스. 이미지마다 크기가 달라 원본 비율 그대로 배치되며, 마우스를 올리면 유기적으로 반응합니다. 클릭 시 상세 보기.",
    "groups": [
     {
      "sub": "포획 기둥",
-     "note": "이미지 칸 · hub/img/ 에 업로드(pillar-1..4.png) 또는 파일/URL 전달",
+     "layout": "masonry",
+     "note": "세로 이미지 위주 · 마우스 반응 · 클릭 확대 · pillar-1..11.png",
      "imgs": [
       {
        "label": "포획 기둥 1",
@@ -54,6 +55,41 @@ window.REF_DATA = {
        "label": "포획 기둥 4",
        "src": "img/pillar-4.png",
        "link": "img/pillar-4.png"
+      },
+      {
+       "label": "포획 기둥 5",
+       "src": "img/pillar-5.png",
+       "link": "img/pillar-5.png"
+      },
+      {
+       "label": "포획 기둥 6",
+       "src": "img/pillar-6.png",
+       "link": "img/pillar-6.png"
+      },
+      {
+       "label": "포획 기둥 7",
+       "src": "img/pillar-7.png",
+       "link": "img/pillar-7.png"
+      },
+      {
+       "label": "포획 기둥 8",
+       "src": "img/pillar-8.png",
+       "link": "img/pillar-8.png"
+      },
+      {
+       "label": "포획 기둥 9",
+       "src": "img/pillar-9.png",
+       "link": "img/pillar-9.png"
+      },
+      {
+       "label": "포획 기둥 10",
+       "src": "img/pillar-10.png",
+       "link": "img/pillar-10.png"
+      },
+      {
+       "label": "포획 기둥 11",
+       "src": "img/pillar-11.png",
+       "link": "img/pillar-11.png"
       }
      ]
     }

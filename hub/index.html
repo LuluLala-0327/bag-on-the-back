@@ -127,6 +127,16 @@
   @media(max-width:640px){.reftable,.reftable tbody,.reftable tr,.reftable td{display:block;width:100%}.rt-img{width:100%}.rt-img img{min-height:0;aspect-ratio:16/10}}
   .imgslot{display:flex;align-items:center;justify-content:center;min-height:210px;height:100%;background:repeating-linear-gradient(45deg,#f4f4f4,#f4f4f4 10px,#ececec 10px,#ececec 20px);color:#999;font-size:12px;font-weight:700;text-align:center;padding:16px}
 
+  .masonry{columns:3 240px;column-gap:14px;margin-top:14px}
+  .mzitem{break-inside:avoid;margin:0 0 14px;position:relative;cursor:zoom-in;overflow:hidden;border:1px solid var(--line);background:#0b0c0d;transition:transform .55s cubic-bezier(.34,1.4,.5,1),box-shadow .2s;will-change:transform}
+  .mzitem img{width:100%;height:auto;display:block}
+  .mzitem figcaption{position:absolute;left:0;right:0;bottom:0;padding:8px 10px;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.78));opacity:0;transition:opacity .2s}
+  .mzitem:hover figcaption{opacity:1}
+  .mzitem:hover{box-shadow:0 12px 30px rgba(0,0,0,.3);z-index:2}
+  .mzitem.wide{column-span:all}
+  .mzitem .imgslot{min-height:260px}
+  @media(max-width:560px){.masonry{columns:2 150px}}
+
   .lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:24px}
   .lightbox.open{display:flex}
   .lightbox img{max-width:94vw;max-height:92vh;object-fit:contain;box-shadow:0 10px 44px rgba(0,0,0,.55)}
@@ -213,6 +223,13 @@ function __bootHub(){
   }
   function groupBody(g){
     var h='';
+    if(g.layout==='masonry'){
+      h+='<div class="masonry">';
+      (g.imgs||[]).forEach(function(im){
+        h+='<figure class="mzitem" data-full="'+esc(im.src)+'" data-cap="'+esc(im.label||'')+'"><img loading="lazy" src="'+esc(im.src)+'" alt="'+esc(im.label||'')+'" onload="if(this.naturalWidth>this.naturalHeight*1.25)this.parentNode.classList.add(\'wide\')" onerror="'+ONERR+'"><figcaption>'+esc(im.label||'')+'</figcaption></figure>';
+      });
+      h+='</div>'; return h;
+    }
     if(g.layout==='table'&&g.items&&g.items.length){
       h+='<table class="reftable"><tbody>';
       g.items.forEach(function(it){
@@ -266,6 +283,18 @@ function __bootHub(){
     var dh=document.createElement('div'); dh.className='drawer-cat'; dh.textContent=c.title; drawerList.appendChild(dh);
     secs.forEach(function(s){ var a=document.createElement('a'); a.href='#s'+s.n; a.setAttribute('data-cat',c.id); a.innerHTML='<span class="dn">'+pad(s.n)+'</span><span>'+esc(s.title)+'</span>'; drawerList.appendChild(a); });
   });
+
+  /* ---- masonry: 마우스 움직임 유기적 바운스 ---- */
+  (function initMasonry(){
+    Array.prototype.forEach.call(document.querySelectorAll('.masonry'),function(m){
+      var items=m.querySelectorAll('.mzitem');
+      m.addEventListener('mousemove',function(e){
+        var r=m.getBoundingClientRect(), mx=(e.clientX-r.left)/r.width-0.5, my=(e.clientY-r.top)/r.height-0.5;
+        Array.prototype.forEach.call(items,function(it,i){ var d=((i%3)+1)*8; it.style.transform='translate('+(mx*d).toFixed(1)+'px,'+(my*d*0.8).toFixed(1)+'px)'; });
+      });
+      m.addEventListener('mouseleave',function(){ Array.prototype.forEach.call(items,function(it){ it.style.transform=''; }); });
+    });
+  })();
 
   /* ---- category switching ---- */
   var search=document.getElementById('search'), count=document.getElementById('count');
