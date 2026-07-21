@@ -1,6 +1,6 @@
-/* 레퍼런스 허브 — 자동 병합 데이터 (기획팀 + 연출팀 + 아트팀)
- * 카테고리별로 편집: sections[].cat 로 팀 구분, categories[] 에 팀 정의.
- * 이미지 경로는 ../directing/img/ 기준(연출팀 이미지 재사용). */
+/* 레퍼런스 허브 — 병합 데이터 (기획팀 이미지+영상 / 연출팀 / 아트팀)
+ * 이미지 경로: 기획팀 이미지=img/(=hub/img/), 연출팀 이미지=../directing/img/
+ * 영상 섹션(기획팀)은 accordion:true 로 접기/펼치기 렌더. */
 window.REF_DATA = {
  "meta": {
   "title": "레퍼런스 허브",
@@ -10,8 +10,8 @@ window.REF_DATA = {
  "categories": [
   {
    "id": "planning",
-   "title": "기획팀 설정 파트 영상 레퍼",
-   "desc": "기획팀 — 설정 파트 영상 레퍼런스 (풍경 롱샷 · 주변 상황 발견 · 클라이맥스 · 원시림 공포)."
+   "title": "기획팀 설정 파트 레퍼런스",
+   "desc": "기획팀 — 이미지 레퍼런스(포획 기둥·기괴한 실루엣·숲/정글 무드·게임 스크린샷) + 영상 레퍼런스(아코디언)."
   },
   {
    "id": "directing",
@@ -27,6 +27,142 @@ window.REF_DATA = {
  "sections": [
   {
    "n": 1,
+   "cat": "planning",
+   "title": "포획 기둥 레퍼런스",
+   "intro": "포획 기둥 관련 이미지 레퍼런스. 이미지를 클릭하면 크게 볼 수 있습니다.",
+   "groups": [
+    {
+     "sub": "포획 기둥",
+     "note": "이미지 칸 · hub/img/ 에 업로드(pillar-1..4.png) 또는 파일/URL 전달",
+     "imgs": [
+      {
+       "label": "포획 기둥 1",
+       "src": "img/pillar-1.png",
+       "link": "img/pillar-1.png"
+      },
+      {
+       "label": "포획 기둥 2",
+       "src": "img/pillar-2.png",
+       "link": "img/pillar-2.png"
+      },
+      {
+       "label": "포획 기둥 3",
+       "src": "img/pillar-3.png",
+       "link": "img/pillar-3.png"
+      },
+      {
+       "label": "포획 기둥 4",
+       "src": "img/pillar-4.png",
+       "link": "img/pillar-4.png"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "cat": "planning",
+   "title": "기괴한 실루엣의 나무 / 구조물",
+   "intro": "안개 너머로 공포감을 연출할 수 있는, 보이는 기괴한 실루엣의 나무·구조물 레퍼런스.",
+   "groups": [
+    {
+     "sub": "실루엣 나무 / 구조물",
+     "note": "이미지 칸 · silhouette-1..4.png",
+     "imgs": [
+      {
+       "label": "실루엣 1",
+       "src": "img/silhouette-1.png",
+       "link": "img/silhouette-1.png"
+      },
+      {
+       "label": "실루엣 2",
+       "src": "img/silhouette-2.png",
+       "link": "img/silhouette-2.png"
+      },
+      {
+       "label": "실루엣 3",
+       "src": "img/silhouette-3.png",
+       "link": "img/silhouette-3.png"
+      },
+      {
+       "label": "실루엣 4",
+       "src": "img/silhouette-4.png",
+       "link": "img/silhouette-4.png"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "cat": "planning",
+   "title": "숲 / 정글 무드",
+   "intro": "숲·정글의 전반적인 무드 레퍼런스.",
+   "groups": [
+    {
+     "sub": "숲 / 정글 무드",
+     "note": "이미지 칸 · mood-1..4.png",
+     "imgs": [
+      {
+       "label": "무드 1",
+       "src": "img/mood-1.png",
+       "link": "img/mood-1.png"
+      },
+      {
+       "label": "무드 2",
+       "src": "img/mood-2.png",
+       "link": "img/mood-2.png"
+      },
+      {
+       "label": "무드 3",
+       "src": "img/mood-3.png",
+       "link": "img/mood-3.png"
+      },
+      {
+       "label": "무드 4",
+       "src": "img/mood-4.png",
+       "link": "img/mood-4.png"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "cat": "planning",
+   "title": "게임 스크린샷 레퍼런스",
+   "intro": "참고할 게임 스크린샷 레퍼런스.",
+   "groups": [
+    {
+     "sub": "게임 스크린샷",
+     "note": "이미지 칸 · screenshot-1..4.png",
+     "imgs": [
+      {
+       "label": "스크린샷 1",
+       "src": "img/screenshot-1.png",
+       "link": "img/screenshot-1.png"
+      },
+      {
+       "label": "스크린샷 2",
+       "src": "img/screenshot-2.png",
+       "link": "img/screenshot-2.png"
+      },
+      {
+       "label": "스크린샷 3",
+       "src": "img/screenshot-3.png",
+       "link": "img/screenshot-3.png"
+      },
+      {
+       "label": "스크린샷 4",
+       "src": "img/screenshot-4.png",
+       "link": "img/screenshot-4.png"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": 5,
    "cat": "planning",
    "title": "풍경을 묘사하는 롱샷",
    "intro": "배경을 단순한 전경 이미지로 제시하지 않고, 인물의 크기·이동 경로·목적지·환경의 움직임을 한 프레임에 배치해 실제로 탐험 가능한 세계로 느껴지게 한다.",
@@ -164,10 +300,11 @@ window.REF_DATA = {
       }
      ]
     }
-   ]
+   ],
+   "accordion": true
   },
   {
-   "n": 2,
+   "n": 6,
    "cat": "planning",
    "title": "인물 시점의 주변 상황 발견",
    "intro": "인물의 제한된 시점에서 전경·측면·후경의 사건을 순차적으로 발견하게 한다. 모든 정보를 한 번에 주지 않고, 인물의 반응과 카메라 이동으로 주변 상황을 해석하게 만든다.",
@@ -369,10 +506,11 @@ window.REF_DATA = {
       }
      ]
     }
-   ]
+   ],
+   "accordion": true
   },
   {
-   "n": 3,
+   "n": 7,
    "cat": "planning",
    "title": "클라이맥스 요소",
    "intro": "좋은 클라이맥스는 단순히 규모가 커지는 장면이 아니라, 앞에서 축적한 공간·색·카메라·움직임의 규칙이 결정적으로 깨지는 순간이다.",
@@ -608,10 +746,11 @@ window.REF_DATA = {
       }
      ]
     }
-   ]
+   ],
+   "accordion": true
   },
   {
-   "n": 4,
+   "n": 8,
    "cat": "planning",
    "title": "원시림 공포 연출",
    "intro": "숲을 괴물이 숨는 배경이 아니라, 숲 자체가 인물을 추적하고 판단하는 공간처럼 느껴지게 한다. 어둡게 만드는 대신 보이는 정보는 많되 해석 가능한 정보는 적게 유지한다. ※ 일부 영상에 유혈·신체 훼손 표현, In the Earth에는 강한 점멸 연출 포함.",
@@ -924,10 +1063,11 @@ window.REF_DATA = {
       }
      ]
     }
-   ]
+   ],
+   "accordion": true
   },
   {
-   "n": 5,
+   "n": 9,
    "title": "Forest Color Chips",
    "intro": "장면의 기준 팔레트. 각 칩은 이미지가 아니라 CSS 색상값(HEX)으로 표기되어, 어느 환경·기기에서도 실제 색으로 정확히 표시됩니다.",
    "groups": [
@@ -973,7 +1113,7 @@ window.REF_DATA = {
    "cat": "directing"
   },
   {
-   "n": 6,
+   "n": 10,
    "title": "키샷",
    "intro": "핵심 장면(키샷) 레퍼런스. 이미지와 연출 의도를 한 표에서 확인. 이미지를 클릭하면 크게 볼 수 있습니다.",
    "groups": [
@@ -1015,7 +1155,7 @@ window.REF_DATA = {
    "cat": "directing"
   },
   {
-   "n": 7,
+   "n": 11,
    "title": "나무 레퍼런스",
    "intro": "기계 부품으로 구성된 나무 레퍼런스. 케이블·배관·주름관이 척추·혈관 같은 유기적 구조와 결합된 형태.",
    "groups": [
